@@ -14,12 +14,12 @@ def vort_mag_2d(x,z,x_j,z_j):
     return 1/(2*np.pi * r_sq) * curl_mat @ disp
 
 # Base Inputs
-NO_POINTS = 40
+NO_POINTS = 200
 C_LEN = 1.
-EPS = 0.1 * C_LEN # Use if thickness considered
+EPS = 0.01 * C_LEN # Use if thickness considered
 V_INF = 1.
 RHO_INF = 1.
-ALPHA = 10.  # in degrees
+ALPHA = 2.  # in degrees
 
 # Intermediate "Inputs"
 ALPHA = math.radians(ALPHA)
@@ -70,21 +70,21 @@ d_cp = d_lift/ (C_LEN/NO_POINTS) / Q_INF
 d_cp_A = 4 * np.sqrt((C_LEN - contour_x)/contour_x) * ALPHA + \
         32 * (EPS/C_LEN) * np.sqrt((contour_x/C_LEN) * (1 - contour_x/C_LEN))
 
-plt.plot(contour_x,contour_y,"k-", label = "Elliptical Airfoil")
-plt.plot(Xc,Zc,"ro", label = "Control Points", markersize = 2)
-plt.plot(X,Z,"go", label = "Vortex Points", markersize = 2)
+# plt.plot(contour_x,contour_y,"k-", label = "Elliptical Airfoil")
+# plt.plot(Xc,Zc,"ro", label = "Control Points", markersize = 2)
+# plt.plot(X,Z,"go", label = "Vortex Points", markersize = 2)
 
-plt.plot(X,d_cp,"bo-", label = "Numerical $\Delta C_p$", markersize = 4)
+plt.plot(X,d_cp,"bo-", label = "Numerical $\Delta C_p$", markersize = 2)
 plt.plot(contour_x,d_cp_A,"r-", label = "Analytical $\Delta C_p$", markersize = 1, alpha = 0.75)
 
 
-plt.xlabel("Chord Length $[x/c]$")
-plt.ylabel("$Element-Wise $\Delta C_p$")
+plt.xlabel(r"Chord Length $[x/c]$")
+plt.ylabel(r"Element-Wise $\Delta C_p$")
 
-plt.title(f"Numerical $C_L$: {np.sum(d_lift)/(Q_INF * C_LEN):.3f} vs. Analytical: {2*math.pi * (ALPHA + 2 * EPS/C_LEN):.3f}")
+plt.title(f"Numerical $C_L$: {np.sum(d_lift)/(Q_INF * C_LEN):.3f} vs. Analytical: {2*math.pi * (ALPHA + 2 * EPS/C_LEN):.3f} at $Re_\infty$ = {1}")
 
-plt.xlim(-0.5, 1.5)
-plt.ylim(0, 5)
+# plt.xlim(-0.5, 1.5)
+# plt.ylim(0, 5)
 plt.legend()
 
 plt.show()
